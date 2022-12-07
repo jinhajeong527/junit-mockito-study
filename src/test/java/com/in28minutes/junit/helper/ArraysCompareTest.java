@@ -15,4 +15,15 @@ public class ArraysCompareTest {
         Arrays.sort(numbers);
         assertArrayEquals(numbers, expected);
     }
+
+    @Test
+    // @Test(expected = NullPointerException.class) syntax. => Junit4
+    public void testArraySort_NullArray() {
+        // int[] numbers = {};
+        int[] numbers = null;
+        assertThrows(NullPointerException.class, () -> {
+            Arrays.sort(numbers);
+        });
+    }
+
 }
