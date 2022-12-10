@@ -10,7 +10,11 @@ public class TodoServiceStub implements TodoService {
     // Mock을 사용하는 이유가 된다.
     @Override
     public List<String> retrieveTodos(String user) {
-        return Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
-                "Learn How to Use IntelliJ IDE", "Learn Junit", "Learn Java Script");
+        return Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test", "Learn How to Use IntelliJ IDE", "Learn Junit", "Learn Java Script");
+    }
+
+    @Override
+    public void deleteTodo(String todo) {
+
     }
 }

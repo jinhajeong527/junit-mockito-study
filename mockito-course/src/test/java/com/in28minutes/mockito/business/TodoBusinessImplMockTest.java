@@ -10,8 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class TodoBusinessImplMockTest {
     // What is mocking ? => mocking is creating objects that simulate the behavior of real objects.
@@ -23,7 +22,7 @@ public class TodoBusinessImplMockTest {
         // mock() method를 사용하여 TodoService 클래스의 mock을 만듦.
         TodoService todoServiceMock = mock(TodoService.class);
 
-        List<String> todos =  Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
+        List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
                 "Learn How to Use IntelliJ IDE", "Learn Junit", "Learn Java Script");
         // when() : 특정 메서드가, 해당 인자를 통해서 호출되면
         // thenReturn() : TodoServiceMock이 DummyUser value와 함께 호출되면 리턴할 value를 지정해줄 수 있다.
@@ -45,7 +44,7 @@ public class TodoBusinessImplMockTest {
 
         TodoService todoServiceMock = mock(TodoService.class);
 
-        List<String> todos =  Arrays.asList();
+        List<String> todos = Arrays.asList();
         // TodoServiceMock이 DummyUser value와 함께 호출되면
         when(todoServiceMock.retrieveTodos("DummyUser")).thenReturn(todos);
 
@@ -58,11 +57,12 @@ public class TodoBusinessImplMockTest {
         String[] finteredTodosArr = filteredTodos.stream().toArray(String[]::new);
         assertArrayEquals(new String[]{}, finteredTodosArr);
     }
+
     @Test
     public void testRetrieveTodosRelatedToSpring_usingBDD() {
         // Given : Set Up
         TodoService todoServiceMock = mock(TodoService.class);
-        List<String> todos =  Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
+        List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
                 "Learn How to Use IntelliJ IDE", "Learn Junit", "Learn Java Script");
         // given(), willReturn()
         given(todoServiceMock.retrieveTodos("DummyUser")).willReturn(todos);
@@ -73,6 +73,27 @@ public class TodoBusinessImplMockTest {
 
         // Then
         assertEquals(3, filteredTodos.size());
+    }
+
+    @Test
+    public void testDeleteTodosNotRelatedToSpring_usingBDD() {
+        // Given : Set Up
+        TodoService todoServiceMock = mock(TodoService.class);
+        List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
+                "Learn How to Use IntelliJ IDE", "Learn Junit", "Learn Java Script");
+        // given(), willReturn()
+        given(todoServiceMock.retrieveTodos("DummyUser")).willReturn(todos);
+        TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+
+        // When
+        todoBusinessImpl.deleteTodosNotRelatedToSpring("DummyUser");
+
+        // Then
+        verify(todoServiceMock, atMost(1)).deleteTodo("Learn How to Use IntelliJ IDE");
+        verify(todoServiceMock, times(1)).deleteTodo("Learn Junit"); // 한번만 호출되어야 한다.
+        verify(todoServiceMock, atLeast(1)).deleteTodo("Learn Java Script");
+
+        verify(todoServiceMock, never()).deleteTodo("Learn Spring MVC");
     }
 
 }
