@@ -19,12 +19,14 @@ public class TodoBusinessImplMockTest {
     // You can verify method calls and a lot of other things.
     @Test
     public void testRetrieveTodosRelatedToSpring_usingAMock() {
-        // mock() method를 사용한다.
-       TodoService todoServiceMock = mock(TodoService.class);
+        // mock() method를 사용하여 TodoService 클래스의 mock을 만듦.
+        TodoService todoServiceMock = mock(TodoService.class);
 
-       List<String> todos =  Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
+        List<String> todos =  Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
                 "Learn How to Use IntelliJ IDE", "Learn Junit", "Learn Java Script");
+        // when() : 특정 메서드가, 해당 인자를 통해서 호출되면
         // thenReturn() : TodoServiceMock이 DummyUser value와 함께 호출되면 리턴할 value를 지정해줄 수 있다.
+        // 현재는 하드코딩 방식으로 동적으로 목을 사용한 테스트 코드도 작성할 것이다.
         when(todoServiceMock.retrieveTodos("DummyUser")).thenReturn(todos);
 
         TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
