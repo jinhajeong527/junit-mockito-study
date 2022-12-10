@@ -4,8 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.anyInt;
@@ -69,4 +73,17 @@ public class ListTest {
 //        when(listMock.subList(anyInt(), 5)).thenThrow(new RuntimeException());
 //        listMock.get(0);
 //    } THIS iS NOT GONNA WORK...!
+
+    @Test
+    public void testMockListGet_usingBBD() {
+        // Given
+        List<String> listMock = mock(List.class);
+        given(listMock.get(anyInt())).willReturn("in28Minutes");
+
+        // When
+        String firstElement = listMock.get(0);
+
+        // Then  : hamcrest
+        assertThat(firstElement, is("in28Minutes"));
+    }
 }

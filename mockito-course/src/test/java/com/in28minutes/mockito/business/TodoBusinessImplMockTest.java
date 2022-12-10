@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -57,4 +58,21 @@ public class TodoBusinessImplMockTest {
         String[] finteredTodosArr = filteredTodos.stream().toArray(String[]::new);
         assertArrayEquals(new String[]{}, finteredTodosArr);
     }
+    @Test
+    public void testRetrieveTodosRelatedToSpring_usingBDD() {
+        // Given : Set Up
+        TodoService todoServiceMock = mock(TodoService.class);
+        List<String> todos =  Arrays.asList("Learn Spring MVC", "Learn Spring Data JPA", "Learn Spring Test",
+                "Learn How to Use IntelliJ IDE", "Learn Junit", "Learn Java Script");
+        // given(), willReturn()
+        given(todoServiceMock.retrieveTodos("DummyUser")).willReturn(todos);
+        TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+
+        // When
+        List<String> filteredTodos = todoBusinessImpl.retrieveTodosRelatedToSpring("DummyUser");
+
+        // Then
+        assertEquals(3, filteredTodos.size());
+    }
+
 }
