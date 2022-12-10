@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,9 +22,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class) // @Mock 어노테이션 사용하기 위해 필요하다.
+@ExtendWith({MockitoExtension.class, SpringExtension.class}) // @Mock 어노테이션 사용하기 위해 필요하다.
 public class TodoBusinessImplMockitoInjectMocksTest {
-
     @Mock
     TodoService todoServiceMock;
     @InjectMocks
