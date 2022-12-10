@@ -63,4 +63,10 @@ public class ListTest {
         });
         assertEquals("Something", exception.getMessage());
     }
+//    @Test
+//    public void testMockList_mixingUp() {
+//        List listMock = mock(List.class);
+//        when(listMock.subList(anyInt(), 5)).thenThrow(new RuntimeException());
+//        listMock.get(0);
+//    } THIS iS NOT GONNA WORK...!
 }
